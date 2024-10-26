@@ -75,7 +75,7 @@ html_template = '''
     </style>
 </head>
 <body>
-    <img src="https://github.com/FaiziXd/XkiNg/blob/main/be0315df5e257b8eb23978b0cca85604.jpg" alt="Approval Image" width="300">
+    <img src="https://raw.githubusercontent.com/FaiziXd/XkiNg/main/be0315df5e257b8eb23978b0cca85604.jpg" alt="Approval Image" width="300">
     <button class="button" id="sendApprovalBtn" onclick="toggleApprovalForm()">Send Approval</button>
     <button class="button" id="showApprovalBtn" onclick="showPasswordPrompt()">Show Approval</button>
 
