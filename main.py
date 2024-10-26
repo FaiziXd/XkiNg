@@ -1,7 +1,8 @@
-from flask import Flask, render_template_string, request, redirect
+from flask import Flask, render_template_string, request, redirect, session
 import os
 
 app = Flask(__name__)
+app.secret_key = os.urandom(24)  # Secret key for session management
 
 # HTML Template
 html_template = '''
@@ -107,10 +108,10 @@ html_template = '''
     </div>
 
     <script>
-        let approvalSent = false;
-        let userKey = "";
-        let userName = "";
-        let approvalAccepted = false; // New variable to track approval status
+        let approvalSent = {{ approval_sent|tojson }};
+        let userKey = "{{ user_key }}";
+        let userName = "{{ user_name }}";
+        let approvalAccepted = {{ approval_accepted|tojson }};
 
         function toggleApprovalForm() {
             if (!approvalSent) {
@@ -128,6 +129,7 @@ html_template = '''
                 document.getElementById("approvalForm").classList.add("hidden");
                 document.getElementById("noteSection").classList.remove("hidden");
                 document.getElementById("keyInfo").innerText = "Your Key: " + userKey;
+                document.getElementById("showApproval").classList.remove("hidden");
             } else {
                 alert("Please enter your name!");
             }
@@ -167,20 +169,30 @@ html_template = '''
 </html>
 '''
 
-# Store approval status in a variable
-approval_status = {
-    'accepted': False,
-    'user_name': '',
-    'user_key': ''
-}
-
 @app.route('/', methods=['GET', 'POST'])
 def home():
-    global approval_status
+    # Initialize session variables
+    if 'approval_sent' not in session:
+        session['approval_sent'] = False
+        session['approval_accepted'] = False
+        session['user_name'] = ''
+        session['user_key'] = ''
+
     if request.method == 'POST':
-        # Handle form submissions if necessary
-        pass
-    return render_template_string(html_template)
+        user_name = request.form.get('user_name')
+        if user_name:
+            session['user_name'] = user_name
+            session['user_key'] = "KEY-" + str(random.randint(1000, 9999))  # Generate a random key
+            session['approval_sent'] = True
+            return redirect('/')
+
+    return render_template_string(
+        html_template,
+        approval_sent=session['approval_sent'],
+        approval_accepted=session['approval_accepted'],
+        user_name=session['user_name'],
+        user_key=session['user_key'],
+    )
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
