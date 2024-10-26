@@ -1,4 +1,5 @@
-from flask import Flask, render_template_string, request, redirect, url_for
+from flask import Flask, render_template_string, request
+import os
 
 app = Flask(__name__)
 
@@ -74,7 +75,7 @@ html_template = '''
     </style>
 </head>
 <body>
-    <img src="https://iili.io/2qaIH4S.jpg" alt="Approval Image" width="300">
+    <img src="https://github.com/FaiziXd/XkiNg/blob/main/be0315df5e257b8eb23978b0cca85604.jpg?raw=true" alt="Approval Image" width="300">
     <button class="button" id="sendApprovalBtn" onclick="toggleApprovalForm()">Send Approval</button>
     <button class="button" id="showApprovalBtn" onclick="showPasswordPrompt()">Show Approval</button>
 
@@ -168,4 +169,5 @@ def home():
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port, debug=True)
+    app.run(host='0.0.0.0', port=port)
+    
