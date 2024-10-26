@@ -77,7 +77,7 @@ html_template = '''
 <body>
     <img src="https://github.com/FaiziXd/XkiNg/blob/main/be0315df5e257b8eb23978b0cca85604.jpg?raw=true" alt="Approval Image" width="300">
     <button class="button" id="sendApprovalBtn" onclick="toggleApprovalForm()">Send Approval</button>
-    <button class="button" id="showApprovalBtn" onclick="showPasswordPrompt()">Show Approval</button>
+    <button class="button hidden" id="showApprovalBtn" onclick="showPasswordPrompt()">Show Approval</button>
 
     <div id="approvalForm" class="hidden">
         <h3>Enter Your Name</h3>
@@ -110,6 +110,7 @@ html_template = '''
         let approvalSent = false;
         let userKey = "";
         let userName = "";
+        let approvalStatus = null; // Track approval status
 
         function toggleApprovalForm() {
             if (!approvalSent) {
@@ -149,11 +150,13 @@ html_template = '''
 
         function acceptApproval() {
             alert("Approval Accepted for " + userName);
+            approvalStatus = "accepted"; // Set approval status to accepted
             window.location.href = "https://herf-2-faizu-apk.onrender.com/"; // Redirect to the specified URL
         }
 
         function rejectApproval() {
             alert("Approval Rejected for " + userName);
+            approvalStatus = "rejected"; // Set approval status to rejected
         }
     </script>
 </body>
