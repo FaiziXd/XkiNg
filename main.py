@@ -1,4 +1,4 @@
-from flask import Flask, render_template_string, request
+from flask import Flask, render_template_string, request, redirect
 import os
 
 app = Flask(__name__)
@@ -167,8 +167,16 @@ html_template = '''
 </html>
 '''
 
+# Store approval status in a variable
+approval_status = {
+    'accepted': False,
+    'user_name': '',
+    'user_key': ''
+}
+
 @app.route('/', methods=['GET', 'POST'])
 def home():
+    global approval_status
     if request.method == 'POST':
         # Handle form submissions if necessary
         pass
